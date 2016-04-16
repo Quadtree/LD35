@@ -18,7 +18,22 @@ public:
 	FVector CurrentDestination;
 
 	void Tick(float deltaTime);
+
+	void BeginPlay();
+
+	bool KnowsWeretigerIdentity;
 	
 private:
 	float TimeToNextPath;
+	float TimeToNextScan;
+	float LastContactTimer;
+
+	UPROPERTY()
+	AActor* CurrentAttackTarget;
+
+	float LastContactThreat;
+
+	float GetThreatLevel(class ALD35Character* chr);
+
+	bool CanPawnSee(class ALD35Character *chr);
 };

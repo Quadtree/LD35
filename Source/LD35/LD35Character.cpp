@@ -100,7 +100,7 @@ void ALD35Character::OnFire()
 					SpawnRotation = a->GetComponentRotation();
 					SpawnLocation = a->GetComponentLocation();
 					
-					UE_LOG(LogTemp, Display, TEXT("NM %s %s %s %s %s"), *a->GetName(), *cam->GetName(), *SpawnLocation.ToString(), *cam->GetComponentLocation().ToString(), *a->GetRelativeTransform().ToString());
+					//UE_LOG(LogTemp, Display, TEXT("NM %s %s %s %s %s"), *a->GetName(), *cam->GetName(), *SpawnLocation.ToString(), *cam->GetComponentLocation().ToString(), *a->GetRelativeTransform().ToString());
 				}
 			}
 
