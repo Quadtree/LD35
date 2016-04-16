@@ -257,3 +257,14 @@ void ALD35Character::SetIsFiring(float isFiring)
 {
 	IsFiring = isFiring > 0.5f;
 }
+
+float ALD35Character::TakeDamage(float DamageAmount, FDamageEvent const & DamageEvent, AController * EventInstigator, AActor * DamageCauser)
+{
+	float dmg = Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
+
+	Health -= dmg;
+
+	if (Health <= 0) Destroy();
+
+	return dmg;
+}

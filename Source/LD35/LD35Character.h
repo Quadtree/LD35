@@ -126,5 +126,10 @@ public:
 	void Tick(float deltaTime);
 
 	void SetIsFiring(float isFiring);
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Health)
+	float Health;
+
+	float TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser) override;
 };
 
