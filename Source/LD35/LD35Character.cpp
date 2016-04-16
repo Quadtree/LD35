@@ -26,25 +26,6 @@ ALD35Character::ALD35Character()
 	FirstPersonCameraComponent->AttachParent = GetCapsuleComponent();
 	FirstPersonCameraComponent->RelativeLocation = FVector(0, 0, 64.f); // Position the camera
 	FirstPersonCameraComponent->bUsePawnControlRotation = true;
-
-	// Create a mesh component that will be used when being viewed from a '1st person' view (when controlling this pawn)
-	Mesh1P = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("CharacterMesh1P"));
-	Mesh1P->AttachParent = FirstPersonCameraComponent;
-	Mesh1P->bCastDynamicShadow = false;
-	Mesh1P->CastShadow = false;
-
-	// Create a gun mesh component
-	FP_Gun = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("FP_Gun"));
-	FP_Gun->bCastDynamicShadow = false;
-	FP_Gun->CastShadow = false;
-	FP_Gun->AttachTo(Mesh1P, TEXT("GripPoint"), EAttachLocation::SnapToTargetIncludingScale, true);
-
-
-	// Default offset from the character location for projectiles to spawn
-	GunOffset = FVector(100.0f, 30.0f, 10.0f);
-
-	// Note: The ProjectileClass and the skeletal mesh/anim blueprints for Mesh1P are set in the
-	// derived blueprint asset named MyCharacter (to avoid direct content references in C++)
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -101,15 +82,34 @@ void ALD35Character::OnFire()
 	// try and fire a projectile
 	if (ProjectileClass != NULL)
 	{
-		const FRotator SpawnRotation = GetControlRotation();
-		// MuzzleOffset is in camera space, so transform it to world space before offsetting from the character location to find the final muzzle position
-		const FVector SpawnLocation = GetActorLocation() + SpawnRotation.RotateVector(GunOffset);
+		USceneComponent* cam = FindComponentByClass<UCameraComponent>();
 
-		UWorld* const World = GetWorld();
-		if (World != NULL)
+		if (cam)
 		{
-			// spawn the projectile at the muzzle
-			World->SpawnActor<ALD35Projectile>(ProjectileClass, SpawnLocation, SpawnRotation);
+			FRotator SpawnRotation = cam->GetComponentRotation();
+			FVector SpawnLocation = cam->GetComponentLocation();
+
+			TArray<USceneComponent*> childComponents;
+
+			cam->GetChildrenComponents(false, childComponents);
+
+			for (auto& a : childComponents)
+			{
+				if (a->ComponentHasTag(TEXT("Gun")))
+				{
+					SpawnRotation = a->GetComponentRotation();
+					SpawnLocation = a->GetComponentLocation();
+					
+					UE_LOG(LogTemp, Display, TEXT("NM %s %s %s %s %s"), *a->GetName(), *cam->GetName(), *SpawnLocation.ToString(), *cam->GetComponentLocation().ToString(), *a->GetRelativeTransform().ToString());
+				}
+			}
+
+			UWorld* const World = GetWorld();
+			if (World != NULL)
+			{
+				// spawn the projectile at the muzzle
+				World->SpawnActor<ALD35Projectile>(ProjectileClass, SpawnLocation, SpawnRotation);
+			}
 		}
 	}
 
@@ -117,17 +117,6 @@ void ALD35Character::OnFire()
 	if (FireSound != NULL)
 	{
 		UGameplayStatics::PlaySoundAtLocation(this, FireSound, GetActorLocation());
-	}
-
-	// try and play a firing animation if specified
-	if(FireAnimation != NULL)
-	{
-		// Get the animation object for the arms mesh
-		UAnimInstance* AnimInstance = Mesh1P->GetAnimInstance();
-		if(AnimInstance != NULL)
-		{
-			AnimInstance->Montage_Play(FireAnimation, 1.f);
-		}
 	}
 
 }
