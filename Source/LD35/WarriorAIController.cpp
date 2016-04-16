@@ -19,6 +19,8 @@ void AWarriorAIController::Tick(float deltaTime)
 
 	if (!CurrentAttackTarget)
 	{
+		ClearFocus(EAIFocusPriority::Gameplay);
+
 		if (TimeToNextPath < 0)
 		{
 			TimeToNextPath = 3;
@@ -30,6 +32,8 @@ void AWarriorAIController::Tick(float deltaTime)
 		// too much threat. run away!
 		if (LastContactThreat > 20)
 		{
+			ClearFocus(EAIFocusPriority::Gameplay);
+
 			FVector delta = (GetPawn()->GetActorLocation() - CurrentAttackTarget->GetActorLocation()).GetSafeNormal();
 
 			FVector fleePos = GetPawn()->GetActorLocation() + delta * 2000;
@@ -50,7 +54,7 @@ void AWarriorAIController::Tick(float deltaTime)
 
 			StopMovement();
 
-			SetControlRotation(delta.Rotation());
+			SetFocalPoint(CurrentAttackTarget->GetActorLocation() + FVector(0, 0, 0), EAIFocusPriority::Gameplay);
 
 			if (auto chr = Cast<ALD35Character>(GetPawn()))
 			{
@@ -146,9 +150,11 @@ bool AWarriorAIController::CanPawnSee(ALD35Character * chr)
 
 	if (obstructed >= tot) return false;
 
-	float range = FVector::Dist(chr->GetActorLocation(), GetPawn()->GetActorLocation()) + (obstructed * 800 / tot);
+	float range = FVector::Dist(eyePos, GetPawn()->GetActorLocation()) + (obstructed * 800 / tot);
 
 	FVector forwardVector = GetControlRotation().RotateVector(FVector(1, 0, 0));
+
+	DrawDebugDirectionalArrow(GetWorld(), eyePos, eyePos + forwardVector * 100, 150, FColor::Red, true, 1);
 
 	FVector bearingVector = (chr->GetActorLocation() - GetPawn()->GetActorLocation()).GetSafeNormal();
 
@@ -161,5 +167,28 @@ bool AWarriorAIController::CanPawnSee(ALD35Character * chr)
 	{
 		// target is behind us
 		return range < 350;
+	}
+}
+
+void AWarriorAIController::UpdateControlRotation(float DeltaTime, bool bUpdatePawn)
+{
+	// Look toward focus
+	FVector FocalPoint = GetFocalPoint();
+	APawn* const Pawn = GetPawn();
+
+	if (Pawn)
+	{
+		FVector Direction = FAISystem::IsValidLocation(FocalPoint) ? (FocalPoint - Pawn->GetPawnViewLocation()) : Pawn->GetActorForwardVector();
+		FRotator NewControlRotation = Direction.Rotation();
+
+		if (GetControlRotation().Equals(NewControlRotation, 1e-3f) == false)
+		{
+			SetControlRotation(NewControlRotation);
+
+			if (bUpdatePawn)
+			{
+				Pawn->FaceRotation(NewControlRotation, DeltaTime);
+			}
+		}
 	}
 }
