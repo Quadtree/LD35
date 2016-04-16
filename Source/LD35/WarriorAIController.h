@@ -13,7 +13,12 @@ class LD35_API AWarriorAIController : public AAIController
 {
 	GENERATED_BODY()
 	
+public:
+	UPROPERTY(BlueprintReadWrite, Category = Destination)
+	FVector CurrentDestination;
+
+	void Tick(float deltaTime);
 	
-	
-	
+private:
+	float TimeToNextPath;
 };

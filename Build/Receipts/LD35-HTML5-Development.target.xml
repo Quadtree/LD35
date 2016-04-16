@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <BuildReceipt xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Properties>
-    <Property Name="TargetName" Value="LD35Editor" />
-    <Property Name="Platform" Value="Win64" />
+    <Property Name="TargetName" Value="LD35" />
+    <Property Name="Platform" Value="HTML5" />
     <Property Name="Configuration" Value="Development" />
     <Property Name="Precompile" Value="False" />
   </Properties>
   <BuildProducts>
-    <BuildProduct Path="$(ProjectDir)\Binaries\Win64\UE4Editor-LD35-6958.dll" Type="DynamicLibrary" />
-    <BuildProduct Path="$(ProjectDir)\Binaries\Win64\UE4Editor-LD35-6958.pdb" Type="SymbolFile" />
-    <BuildProduct Path="$(ProjectDir)\Intermediate\Build\Win64\UE4Editor\Development\UE4Editor-LD35-6958.lib" Type="ImportLibrary" />
+    <BuildProduct Path="$(ProjectDir)\Binaries\HTML5\LD35.js" Type="Executable" />
+    <BuildProduct Path="$(ProjectDir)\Binaries\HTML5\LD35.js.mem" Type="RequiredResource" />
+    <BuildProduct Path="$(ProjectDir)\Binaries\HTML5\LD35.js.symbols" Type="RequiredResource" />
   </BuildProducts>
   <RuntimeDependencies />
   <AdditionalProperties />
