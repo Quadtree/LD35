@@ -115,8 +115,16 @@ public:
 	float InitialSpeed;
 	float InitialJumpPower;
 
+	bool IsFiring;
+
+	float ShotCooldown;
+
 	void BeginPlay();
 
 	void Transform();
+
+	void Tick(float deltaTime);
+
+	void SetIsFiring(float isFiring);
 };
 

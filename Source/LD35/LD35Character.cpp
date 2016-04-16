@@ -57,11 +57,7 @@ void ALD35Character::SetupPlayerInputComponent(class UInputComponent* InputCompo
 	InputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
 	InputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
 	
-	//InputComponent->BindTouch(EInputEvent::IE_Pressed, this, &ALD35Character::TouchStarted);
-	if( EnableTouchscreenMovement(InputComponent) == false )
-	{
-		InputComponent->BindAction("Fire", IE_Pressed, this, &ALD35Character::OnFire);
-	}
+	InputComponent->BindAxis("Fire", this, &ALD35Character::SetIsFiring);
 	
 	InputComponent->BindAxis("MoveForward", this, &ALD35Character::MoveForward);
 	InputComponent->BindAxis("MoveRight", this, &ALD35Character::MoveRight);
@@ -241,4 +237,23 @@ void ALD35Character::Transform()
 			GetCharacterMovement()->JumpZVelocity = InitialJumpPower;
 		}
 	}
+}
+
+void ALD35Character::Tick(float deltaTime)
+{
+	Super::Tick(deltaTime);
+
+	ShotCooldown -= deltaTime;
+
+	if (IsFiring && ShotCooldown <= 0)
+	{
+		ShotCooldown = 1.5f;
+
+		OnFire();
+	}
+}
+
+void ALD35Character::SetIsFiring(float isFiring)
+{
+	IsFiring = isFiring > 0.5f;
 }
