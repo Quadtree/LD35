@@ -5,6 +5,7 @@
 #include "LD35Projectile.h"
 #include "Animation/AnimInstance.h"
 #include "GameFramework/InputSettings.h"
+#include "DrawDebugHelpers.h"
 
 DEFINE_LOG_CATEGORY_STATIC(LogFPChar, Warning, All);
 
@@ -75,6 +76,28 @@ void ALD35Character::SetupPlayerInputComponent(class UInputComponent* InputCompo
 
 void ALD35Character::OnFire()
 { 
+	if (IsInAlternateForm)
+	{
+		FVector trgPos = FindComponentByClass<UCameraComponent>()->GetComponentLocation() + GetActorRotation().RotateVector(FVector(140, 0, 0));
+
+		DrawDebugSphere(GetWorld(), trgPos, 150, 8, FColor::Red, false, 0.5f);
+
+		TArray<FOverlapResult> res;
+
+		if (GetWorld()->OverlapMultiByChannel(res, trgPos, FQuat::Identity, ECollisionChannel::ECC_WorldDynamic, FCollisionShape::MakeSphere(150)))
+		{
+			for (auto& a : res)
+			{
+				if (a.Actor.Get() && a.Actor != this)
+				{
+					a.Actor->TakeDamage(1, FDamageEvent(), this->GetController(), this);
+				}
+			}
+		}
+
+		return;
+	}
+
 	// try and fire a projectile
 	if (ProjectileClass != NULL)
 	{
@@ -247,7 +270,7 @@ void ALD35Character::Tick(float deltaTime)
 
 	if (IsFiring && ShotCooldown <= 0)
 	{
-		ShotCooldown = 1.5f;
+		ShotCooldown = IsInAlternateForm ? 0.5f : 1.5f;
 
 		OnFire();
 	}
