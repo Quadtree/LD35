@@ -50,15 +50,28 @@ void AWarriorAIController::Tick(float deltaTime)
 		{
 			FVector delta = (CurrentAttackTarget->GetActorLocation() - GetPawn()->GetActorLocation()).GetSafeNormal();
 
-			DrawDebugLine(GetWorld(), GetPawn()->GetActorLocation(), CurrentAttackTarget->GetActorLocation(), FColor::Yellow, true, 0.5f);
+			
 
 			StopMovement();
 
-			SetFocalPoint(CurrentAttackTarget->GetActorLocation() + FVector(0, 0, 0), EAIFocusPriority::Gameplay);
+			FVector aim;
+			FVector launchPoint = GetPawn()->FindComponentByClass<UCameraComponent>()->GetComponentLocation();
+			FVector targetPoint = CurrentAttackTarget->GetActorLocation() + FVector(0,0,75);
 
-			if (auto chr = Cast<ALD35Character>(GetPawn()))
+			TArray<AActor*> ignore;
+			ignore.Add(GetPawn());
+			ignore.Add(CurrentAttackTarget);
+
+			if (UGameplayStatics::SuggestProjectileVelocity(GetPawn(), aim, launchPoint, targetPoint, 5500, false, 20, 0.f, ESuggestProjVelocityTraceOption::OnlyTraceWhileAsceding, FCollisionResponseParams::DefaultResponseParam, ignore))
 			{
-				chr->IsFiring = true;
+				DrawDebugLine(GetWorld(), GetPawn()->GetActorLocation(), GetPawn()->GetActorLocation() + aim * 4000, FColor::Yellow, true, 0.5f);
+
+				SetFocalPoint(GetPawn()->GetPawnViewLocation() + aim * 4000, EAIFocusPriority::Gameplay);
+
+				if (auto chr = Cast<ALD35Character>(GetPawn()))
+				{
+					chr->IsFiring = true;
+				}
 			}
 		}
 	}
@@ -180,6 +193,8 @@ void AWarriorAIController::UpdateControlRotation(float DeltaTime, bool bUpdatePa
 	{
 		FVector Direction = FAISystem::IsValidLocation(FocalPoint) ? (FocalPoint - Pawn->GetPawnViewLocation()) : Pawn->GetActorForwardVector();
 		FRotator NewControlRotation = Direction.Rotation();
+
+		//UE_LOG(LogTemp, Display, TEXT("ROT %s"), *NewControlRotation.ToCompactString());
 
 		if (GetControlRotation().Equals(NewControlRotation, 1e-3f) == false)
 		{
