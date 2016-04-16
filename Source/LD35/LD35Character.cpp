@@ -89,18 +89,19 @@ void ALD35Character::OnFire()
 			FRotator SpawnRotation = cam->GetComponentRotation();
 			FVector SpawnLocation = cam->GetComponentLocation();
 
-			TArray<USceneComponent*> childComponents;
+			TArray<UActorComponent*> childComponents = GetComponentsByTag(USceneComponent::StaticClass(), "Gun");
 
-			cam->GetChildrenComponents(false, childComponents);
-
-			for (auto& a : childComponents)
+			for (auto& b : childComponents)
 			{
-				if (a->ComponentHasTag(TEXT("Gun")))
+				if (auto a = Cast<USceneComponent>(b))
 				{
-					SpawnRotation = a->GetComponentRotation();
-					SpawnLocation = a->GetComponentLocation();
-					
-					//UE_LOG(LogTemp, Display, TEXT("NM %s %s %s %s %s"), *a->GetName(), *cam->GetName(), *SpawnLocation.ToString(), *cam->GetComponentLocation().ToString(), *a->GetRelativeTransform().ToString());
+					if (a->ComponentHasTag(TEXT("Gun")))
+					{
+						SpawnRotation = a->GetComponentRotation();
+						SpawnLocation = a->GetComponentLocation();
+
+						//UE_LOG(LogTemp, Display, TEXT("NM %s %s %s %s %s"), *a->GetName(), *cam->GetName(), *SpawnLocation.ToString(), *cam->GetComponentLocation().ToString(), *a->GetRelativeTransform().ToString());
+					}
 				}
 			}
 
