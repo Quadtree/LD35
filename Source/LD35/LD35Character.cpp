@@ -6,6 +6,7 @@
 #include "Animation/AnimInstance.h"
 #include "GameFramework/InputSettings.h"
 #include "DrawDebugHelpers.h"
+#include "WarriorAIController.h"
 
 DEFINE_LOG_CATEGORY_STATIC(LogFPChar, Warning, All);
 
@@ -248,6 +249,27 @@ void ALD35Character::Transform()
 		{
 			GetCharacterMovement()->MaxWalkSpeed = InitialSpeed;
 			GetCharacterMovement()->JumpZVelocity = InitialJumpPower;
+		}
+
+		TArray<FOverlapResult> res;
+
+		if (GetWorld()->OverlapMultiByObjectType(res, GetActorLocation(), FQuat::Identity, FCollisionObjectQueryParams::AllDynamicObjects, FCollisionShape::MakeSphere(3000)))
+		{
+			for (auto& a : res)
+			{
+				if (auto chr = Cast<ALD35Character>(a.Actor.Get()))
+				{
+					if (auto con = Cast<AWarriorAIController>(chr->GetController()))
+					{
+						if (con->CanPawnSee(this))
+						{
+							UE_LOG(LogTemp, Display, TEXT("%s saw you transform!"), *chr->GetName());
+
+							con->KnowsWeretigerIdentity = true;
+						}
+					}
+				}
+			}
 		}
 	}
 }

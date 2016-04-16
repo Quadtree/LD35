@@ -42,7 +42,7 @@ void AWarriorAIController::Tick(float deltaTime)
 
 			if (GetWorld()->LineTraceSingleByObjectType(res, fleePos + FVector(0, 0, 5000), fleePos - FVector(0, 0, 5000), FCollisionObjectQueryParams::AllStaticObjects))
 			{
-				UE_LOG(LogTemp, Display, TEXT("Fleeing to %s"), *res.Location.ToCompactString());
+				//UE_LOG(LogTemp, Display, TEXT("Fleeing to %s"), *res.Location.ToCompactString());
 				MoveToLocation(res.Location);
 			}
 		}
@@ -179,7 +179,8 @@ bool AWarriorAIController::CanPawnSee(ALD35Character * chr)
 	else
 	{
 		// target is behind us
-		return range < 350;
+		//return range < 350;
+		return false;
 	}
 }
 

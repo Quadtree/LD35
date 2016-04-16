@@ -22,6 +22,8 @@ public:
 	void BeginPlay();
 
 	bool KnowsWeretigerIdentity;
+
+	bool CanPawnSee(class ALD35Character *chr);
 	
 private:
 	float TimeToNextPath;
@@ -35,7 +37,7 @@ private:
 
 	float GetThreatLevel(class ALD35Character* chr);
 
-	bool CanPawnSee(class ALD35Character *chr);
+	
 
 	void AWarriorAIController::UpdateControlRotation(float DeltaTime, bool bUpdatePawn) override;
 };
