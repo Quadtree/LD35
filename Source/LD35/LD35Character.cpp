@@ -73,6 +73,8 @@ void ALD35Character::SetupPlayerInputComponent(class UInputComponent* InputCompo
 	InputComponent->BindAxis("TurnRate", this, &ALD35Character::TurnAtRate);
 	InputComponent->BindAxis("LookUp", this, &APawn::AddControllerPitchInput);
 	InputComponent->BindAxis("LookUpRate", this, &ALD35Character::LookUpAtRate);
+
+	InputComponent->BindAction("Transform", IE_Pressed, this, &ALD35Character::Transform);
 }
 
 void ALD35Character::OnFire()
@@ -212,4 +214,31 @@ bool ALD35Character::EnableTouchscreenMovement(class UInputComponent* InputCompo
 		InputComponent->BindTouch(EInputEvent::IE_Repeat, this, &ALD35Character::TouchUpdate);
 	}
 	return bResult;
+}
+
+void ALD35Character::BeginPlay()
+{
+	Super::BeginPlay();
+
+	InitialSpeed = GetCharacterMovement()->MaxWalkSpeed;
+	InitialJumpPower = GetCharacterMovement()->JumpZVelocity;
+}
+
+void ALD35Character::Transform()
+{
+	if (CanTransform)
+	{
+		IsInAlternateForm = !IsInAlternateForm;
+
+		if (IsInAlternateForm)
+		{
+			GetCharacterMovement()->MaxWalkSpeed = 1000;
+			GetCharacterMovement()->JumpZVelocity = 900;
+		}
+		else
+		{
+			GetCharacterMovement()->MaxWalkSpeed = InitialSpeed;
+			GetCharacterMovement()->JumpZVelocity = InitialJumpPower;
+		}
+	}
 }

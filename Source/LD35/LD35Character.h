@@ -103,7 +103,20 @@ public:
 	/** Returns FirstPersonCameraComponent subobject **/
 	FORCEINLINE class UCameraComponent* GetFirstPersonCameraComponent() const { return FirstPersonCameraComponent; }
 
+	UPROPERTY(EditAnywhere, Category = Faction)
 	int32 Faction;
 
+	UPROPERTY(EditAnywhere, Category = Transformation)
+	bool CanTransform;
+
+	UPROPERTY(BlueprintReadOnly, Category = Transformation)
+	bool IsInAlternateForm;
+
+	float InitialSpeed;
+	float InitialJumpPower;
+
+	void BeginPlay();
+
+	void Transform();
 };
 
