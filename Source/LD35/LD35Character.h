@@ -98,8 +98,10 @@ public:
 	float InitialSpeed;
 	float InitialJumpPower;
 
+	UPROPERTY(BlueprintReadOnly, Category = Firing)
 	bool IsFiring;
 
+	UPROPERTY(BlueprintReadOnly, Category = Firing)
 	float ShotCooldown;
 
 	void BeginPlay();
