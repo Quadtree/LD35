@@ -128,5 +128,8 @@ public:
 
 	UPROPERTY(BlueprintReadWrite, Category = Health)
 	float HealthRegenStoppedFor;
+
+	UFUNCTION(BlueprintImplementableEvent, Category = Transformation)
+	void OnTransform();
 };
 

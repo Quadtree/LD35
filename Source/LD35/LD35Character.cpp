@@ -273,6 +273,8 @@ void ALD35Character::Transform()
 				}
 			}
 		}
+
+		OnTransform();
 	}
 }
 
