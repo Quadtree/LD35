@@ -300,6 +300,16 @@ void ALD35Character::Tick(float deltaTime)
 			IsInAlternateForm = false;
 		}
 	}
+
+	for (auto& a : GetComponentsByTag(UPrimitiveComponent::StaticClass(), TEXT("Human")))
+	{
+		Cast<UPrimitiveComponent>(a)->SetVisibility(!IsInAlternateForm);
+	}
+
+	for (auto& a : GetComponentsByTag(UPrimitiveComponent::StaticClass(), TEXT("Claw")))
+	{
+		Cast<UPrimitiveComponent>(a)->SetVisibility(IsInAlternateForm);
+	}
 }
 
 void ALD35Character::SetIsFiring(float isFiring)
