@@ -283,6 +283,7 @@ void ALD35Character::Tick(float deltaTime)
 	if (Health <= 0) return;
 
 	ShotCooldown -= deltaTime;
+	HealthRegenStoppedFor -= deltaTime;
 
 	if (IsFiring && ShotCooldown <= 0)
 	{
@@ -299,6 +300,8 @@ void ALD35Character::Tick(float deltaTime)
 		{
 			Transform();
 		}
+
+		if (HealthRegenStoppedFor <= 0) Health = FMath::Clamp(Health + deltaTime, 0.f, 4.f);
 	}
 
 	for (auto& a : GetComponentsByTag(UPrimitiveComponent::StaticClass(), TEXT("Human")))

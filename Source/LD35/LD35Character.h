@@ -125,5 +125,8 @@ public:
 	float EnergyRechargeTime;
 
 	float TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser) override;
+
+	UPROPERTY(BlueprintReadWrite, Category = Health)
+	float HealthRegenStoppedFor;
 };
 
