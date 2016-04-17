@@ -7,6 +7,7 @@
 #include "GameFramework/InputSettings.h"
 #include "DrawDebugHelpers.h"
 #include "WarriorAIController.h"
+#include "EngineUtils.h"
 
 DEFINE_LOG_CATEGORY_STATIC(LogFPChar, Warning, All);
 
@@ -307,6 +308,11 @@ void ALD35Character::Transform()
 		OnTransform();
 
 		UGameplayStatics::PlaySoundAtLocation(this, TransformSound, GetActorLocation());
+
+		for (TActorIterator<ALD35Character> i(GetWorld()); i; ++i)
+		{
+			i->IsSomeoneTransformed = IsInAlternateForm;
+		}
 	}
 }
 
@@ -346,6 +352,11 @@ void ALD35Character::Tick(float deltaTime)
 	for (auto& a : GetComponentsByTag(UPrimitiveComponent::StaticClass(), TEXT("Claw")))
 	{
 		Cast<UPrimitiveComponent>(a)->SetVisibility(IsInAlternateForm);
+	}
+
+	for (auto& a : GetComponentsByClass(UPointLightComponent::StaticClass()))
+	{
+		Cast<UPointLightComponent>(a)->SetVisibility(!IsSomeoneTransformed);
 	}
 }
 

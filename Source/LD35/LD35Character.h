@@ -152,5 +152,8 @@ public:
 
 	UPROPERTY(EditAnywhere, Category = Sound)
 	class USoundBase* TransformSound;
+
+	UPROPERTY(BlueprintReadOnly, Category = Transformation)
+	bool IsSomeoneTransformed;
 };
 
