@@ -2,6 +2,7 @@
 
 #include "LD35.h"
 #include "LD35Projectile.h"
+#include "LD35Character.h"
 #include "GameFramework/ProjectileMovementComponent.h"
 
 ALD35Projectile::ALD35Projectile() 
@@ -36,6 +37,14 @@ void ALD35Projectile::OnHit(AActor* OtherActor, UPrimitiveComponent* OtherComp, 
 	if (OtherActor)
 	{
 		OtherActor->TakeDamage(1, FDamageEvent(), this->GetInstigatorController(), this);
+	}
+
+	if (this->IsSilver)
+	{
+		if (auto chr = Cast<ALD35Character>(OtherActor))
+		{
+			chr->HealthRegenStoppedFor = 15;
+		}
 	}
 
 	// Only add impulse and destroy projectile if we hit a physics
