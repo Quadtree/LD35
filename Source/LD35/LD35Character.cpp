@@ -297,7 +297,7 @@ void ALD35Character::Tick(float deltaTime)
 
 		if (Energy <= 0)
 		{
-			IsInAlternateForm = false;
+			Transform();
 		}
 	}
 
