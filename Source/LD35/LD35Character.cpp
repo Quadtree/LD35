@@ -27,6 +27,9 @@ ALD35Character::ALD35Character()
 	FirstPersonCameraComponent->AttachParent = GetCapsuleComponent();
 	FirstPersonCameraComponent->RelativeLocation = FVector(0, 0, 64.f); // Position the camera
 	FirstPersonCameraComponent->bUsePawnControlRotation = true;
+
+	static ConstructorHelpers::FObjectFinder<USoundBase> s1(TEXT("/Game/Sound/SeeWereTiger/SeeSoundCue"));
+	SeeWereTigerSound = s1.Object;
 }
 
 //////////////////////////////////////////////////////////////////////////
