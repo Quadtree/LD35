@@ -113,6 +113,15 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Health)
 	float Health;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Health)
+	float Energy;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Health)
+	float MaxTransformTime;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Health)
+	float EnergyRechargeTime;
+
 	float TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser) override;
 };
 

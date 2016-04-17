@@ -236,6 +236,8 @@ void ALD35Character::BeginPlay()
 
 void ALD35Character::Transform()
 {
+	if (!IsInAlternateForm && Energy < 0.05f) return;
+
 	if (CanTransform)
 	{
 		IsInAlternateForm = !IsInAlternateForm;
@@ -285,6 +287,16 @@ void ALD35Character::Tick(float deltaTime)
 		ShotCooldown = IsInAlternateForm ? 0.5f : 1.5f;
 
 		OnFire();
+	}
+
+	if (IsInAlternateForm)
+	{
+		Energy = FMath::Clamp(Energy - deltaTime / MaxTransformTime, 0.f, 1.f);
+
+		if (Energy <= 0)
+		{
+			IsInAlternateForm = false;
+		}
 	}
 }
 

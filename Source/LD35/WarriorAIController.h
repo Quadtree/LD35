@@ -37,7 +37,5 @@ private:
 
 	float GetThreatLevel(class ALD35Character* chr);
 
-	
-
 	void UpdateControlRotation(float DeltaTime, bool bUpdatePawn) override;
 };
