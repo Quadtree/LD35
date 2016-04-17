@@ -331,6 +331,7 @@ float ALD35Character::TakeDamage(float DamageAmount, FDamageEvent const & Damage
 	if (Health <= 0)
 	{
 		GetMesh()->SetSimulatePhysics(true);
+		GetMesh()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 		GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 		GetMovementComponent()->SetActive(false);
 	}
