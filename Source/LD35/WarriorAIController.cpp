@@ -89,6 +89,15 @@ void AWarriorAIController::Tick(float deltaTime)
 
 		if (GetWorld()->OverlapMultiByObjectType(res, GetPawn()->GetActorLocation(), FQuat::Identity, FCollisionObjectQueryParams::AllDynamicObjects, FCollisionShape::MakeSphere(2000)))
 		{
+			bool sawWereTigerBefore = false;
+
+			if (auto chr = Cast<ALD35Character>(CurrentAttackTarget))
+			{
+				if (chr->IsInAlternateForm) sawWereTigerBefore = true;
+			}
+
+			
+
 			LastContactThreat = 0.001f;
 			CurrentAttackTarget = nullptr;
 
@@ -112,6 +121,17 @@ void AWarriorAIController::Tick(float deltaTime)
 			if (CurrentAttackTarget)
 			{
 				UE_LOG(LogTemp, Display, TEXT("Trg=%s"), *CurrentAttackTarget->GetName());
+			}
+
+			if (auto chr = Cast<ALD35Character>(CurrentAttackTarget))
+			{
+				if (chr->IsInAlternateForm && !sawWereTigerBefore)
+				{
+					if (FMath::Rand() % 4 == 0)
+					{
+						UGameplayStatics::PlaySoundAtLocation(this, chr->SeeWereTigerSound, GetPawn()->GetActorLocation());
+					}
+				}
 			}
 		}
 	}

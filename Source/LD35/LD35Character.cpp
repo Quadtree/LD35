@@ -270,6 +270,11 @@ void ALD35Character::Transform()
 							UE_LOG(LogTemp, Display, TEXT("%s saw you transform!"), *chr->GetName());
 
 							con->KnowsWeretigerIdentity = true;
+
+							if (FMath::Rand() % 4 == 0)
+							{
+								UGameplayStatics::PlaySoundAtLocation(this, SeeWereTigerSound, con->GetPawn()->GetActorLocation());
+							}
 						}
 					}
 				}

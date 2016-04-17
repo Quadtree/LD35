@@ -131,5 +131,14 @@ public:
 
 	UFUNCTION(BlueprintImplementableEvent, Category = Transformation)
 	void OnTransform();
+
+	UPROPERTY(EditAnywhere, Category = Sound)
+	class USoundBase* SeeWereTigerSound;
+
+	UPROPERTY(EditAnywhere, Category = Sound)
+	class USoundBase* LetsMoveSound;
+
+	UPROPERTY(EditAnywhere, Category = Sound)
+	class USoundBase* TransformSound;
 };
 
