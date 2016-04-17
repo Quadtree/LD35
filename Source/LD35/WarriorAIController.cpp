@@ -69,7 +69,7 @@ void AWarriorAIController::Tick(float deltaTime)
 
 			if (UGameplayStatics::SuggestProjectileVelocity(GetPawn(), aim, launchPoint, targetPoint, 9000, false, 20, 0.f, ESuggestProjVelocityTraceOption::OnlyTraceWhileAsceding, FCollisionResponseParams::DefaultResponseParam, ignore))
 			{
-				DrawDebugLine(GetWorld(), GetPawn()->GetActorLocation(), GetPawn()->GetActorLocation() + aim * 4000, FColor::Yellow, true, 0.5f);
+				//DrawDebugLine(GetWorld(), GetPawn()->GetActorLocation(), GetPawn()->GetActorLocation() + aim * 4000, FColor::Yellow, true, 0.5f);
 
 				SetFocalPoint(GetPawn()->GetPawnViewLocation() + aim * 4000, EAIFocusPriority::Gameplay);
 
@@ -176,7 +176,7 @@ bool AWarriorAIController::CanPawnSee(ALD35Character * chr)
 
 	FVector forwardVector = GetControlRotation().RotateVector(FVector(1, 0, 0));
 
-	DrawDebugDirectionalArrow(GetWorld(), eyePos, eyePos + forwardVector * 100, 150, FColor::Red, true, 1);
+	//DrawDebugDirectionalArrow(GetWorld(), eyePos, eyePos + forwardVector * 100, 150, FColor::Red, true, 1);
 
 	FVector bearingVector = (chr->GetActorLocation() - GetPawn()->GetActorLocation()).GetSafeNormal();
 

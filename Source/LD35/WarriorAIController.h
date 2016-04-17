@@ -21,6 +21,7 @@ public:
 
 	void BeginPlay();
 
+	UPROPERTY(BlueprintReadOnly, Category = Transformation)
 	bool KnowsWeretigerIdentity;
 
 	bool CanPawnSee(class ALD35Character *chr);
