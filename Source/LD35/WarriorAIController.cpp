@@ -90,6 +90,7 @@ void AWarriorAIController::Tick(float deltaTime)
 		if (GetWorld()->OverlapMultiByObjectType(res, GetPawn()->GetActorLocation(), FQuat::Identity, FCollisionObjectQueryParams::AllDynamicObjects, FCollisionShape::MakeSphere(2000)))
 		{
 			bool sawWereTigerBefore = false;
+			bool sawAnyoneBefore = false;
 
 			if (auto chr = Cast<ALD35Character>(CurrentAttackTarget))
 			{
@@ -130,6 +131,13 @@ void AWarriorAIController::Tick(float deltaTime)
 					if (FMath::Rand() % 4 == 0)
 					{
 						UGameplayStatics::PlaySoundAtLocation(this, chr->SeeWereTigerSound, GetPawn()->GetActorLocation());
+					}
+				}
+				else if (!sawAnyoneBefore)
+				{
+					if (FMath::Rand() % 4 == 0)
+					{
+						UGameplayStatics::PlaySoundAtLocation(this, chr->LetsMoveSound, GetPawn()->GetActorLocation());
 					}
 				}
 			}

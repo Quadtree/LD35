@@ -139,6 +139,18 @@ public:
 	class USoundBase* LetsMoveSound;
 
 	UPROPERTY(EditAnywhere, Category = Sound)
+	class USoundBase* DeathSound;
+
+	UPROPERTY(EditAnywhere, Category = Sound)
+	class USoundBase* HitSound;
+
+	UPROPERTY(EditAnywhere, Category = Sound)
+	class USoundBase* SlashSound;
+
+	UPROPERTY(EditAnywhere, Category = Sound)
+	class USoundBase* ShootCrossbowSound;
+
+	UPROPERTY(EditAnywhere, Category = Sound)
 	class USoundBase* TransformSound;
 };
 

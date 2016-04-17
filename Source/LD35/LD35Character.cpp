@@ -30,6 +30,21 @@ ALD35Character::ALD35Character()
 
 	static ConstructorHelpers::FObjectFinder<USoundBase> s1(TEXT("/Game/Sound/SeeWereTiger/SeeSoundCue"));
 	SeeWereTigerSound = s1.Object;
+
+	static ConstructorHelpers::FObjectFinder<USoundBase> s2(TEXT("/Game/Sound/SeeEnemy/SeeSoundCue"));
+	LetsMoveSound = s2.Object;
+
+	static ConstructorHelpers::FObjectFinder<USoundBase> s3(TEXT("/Game/Sound/Death/DeathSoundCue"));
+	DeathSound = s3.Object;
+
+	static ConstructorHelpers::FObjectFinder<USoundBase> s4(TEXT("/Game/Sound/Hit/SoundCue"));
+	HitSound = s4.Object;
+
+	static ConstructorHelpers::FObjectFinder<USoundBase> s5(TEXT("/Game/Sound/CrossbowShot/SoundCue"));
+	ShootCrossbowSound = s5.Object;
+
+	static ConstructorHelpers::FObjectFinder<USoundBase> s6(TEXT("/Game/Sound/Transform/SoundCue"));
+	TransformSound = s6.Object;
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -80,6 +95,11 @@ void ALD35Character::OnFire()
 			}
 		}
 
+		if (FMath::Rand() % 3 == 0)
+		{
+			UGameplayStatics::PlaySoundAtLocation(this, TransformSound, GetActorLocation());
+		}
+
 		return;
 	}
 
@@ -121,7 +141,7 @@ void ALD35Character::OnFire()
 	// try and play the sound if specified
 	if (FireSound != NULL)
 	{
-		UGameplayStatics::PlaySoundAtLocation(this, FireSound, GetActorLocation());
+		UGameplayStatics::PlaySoundAtLocation(this, ShootCrossbowSound, GetActorLocation());
 	}
 
 }
@@ -285,6 +305,8 @@ void ALD35Character::Transform()
 		}
 
 		OnTransform();
+
+		UGameplayStatics::PlaySoundAtLocation(this, TransformSound, GetActorLocation());
 	}
 }
 
@@ -334,6 +356,8 @@ void ALD35Character::SetIsFiring(float isFiring)
 
 float ALD35Character::TakeDamage(float DamageAmount, FDamageEvent const & DamageEvent, AController * EventInstigator, AActor * DamageCauser)
 {
+	UGameplayStatics::PlaySoundAtLocation(this, HitSound, this->GetActorLocation());
+
 	float dmg = Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
 
 	Health -= dmg;
@@ -344,6 +368,8 @@ float ALD35Character::TakeDamage(float DamageAmount, FDamageEvent const & Damage
 		GetMesh()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 		GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 		GetMovementComponent()->SetActive(false);
+
+		UGameplayStatics::PlaySoundAtLocation(this, DeathSound, this->GetActorLocation());
 
 		if (EventInstigator)
 		{
