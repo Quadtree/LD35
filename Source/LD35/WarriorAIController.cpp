@@ -29,7 +29,7 @@ void AWarriorAIController::Tick(float deltaTime)
 		if (TimeToNextPath < 0)
 		{
 			TimeToNextPath = 3;
-			MoveToLocation(CurrentDestination);
+			EPathFollowingRequestResult::Type res = MoveToLocation(CurrentDestination);
 		}
 	}
 	else
@@ -90,7 +90,7 @@ void AWarriorAIController::Tick(float deltaTime)
 		if (GetWorld()->OverlapMultiByObjectType(res, GetPawn()->GetActorLocation(), FQuat::Identity, FCollisionObjectQueryParams::AllDynamicObjects, FCollisionShape::MakeSphere(2000)))
 		{
 			bool sawWereTigerBefore = false;
-			bool sawAnyoneBefore = false;
+			bool sawAnyoneBefore = CurrentAttackTarget != nullptr;
 
 			if (auto chr = Cast<ALD35Character>(CurrentAttackTarget))
 			{
@@ -184,6 +184,17 @@ float AWarriorAIController::GetThreatLevel(ALD35Character* chr)
 
 bool AWarriorAIController::CanPawnSee(ALD35Character * chr)
 {
+	ALD35Character* self = Cast<ALD35Character>(GetPawn());
+
+	if (!self)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Incorrect pawn type"));
+		return 0;
+	}
+
+	// we can't see anything if we're dead...
+	if (self->Health <= 0) return 0;
+
 	FVector eyePos;
 	FRotator eyeRot;
 
