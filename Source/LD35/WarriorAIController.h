@@ -39,5 +39,5 @@ private:
 
 	
 
-	void AWarriorAIController::UpdateControlRotation(float DeltaTime, bool bUpdatePawn) override;
+	void UpdateControlRotation(float DeltaTime, bool bUpdatePawn) override;
 };

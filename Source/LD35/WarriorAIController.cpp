@@ -62,7 +62,7 @@ void AWarriorAIController::Tick(float deltaTime)
 			ignore.Add(GetPawn());
 			ignore.Add(CurrentAttackTarget);
 
-			if (UGameplayStatics::SuggestProjectileVelocity(GetPawn(), aim, launchPoint, targetPoint, 5500, false, 20, 0.f, ESuggestProjVelocityTraceOption::OnlyTraceWhileAsceding, FCollisionResponseParams::DefaultResponseParam, ignore))
+			if (UGameplayStatics::SuggestProjectileVelocity(GetPawn(), aim, launchPoint, targetPoint, 9000, false, 20, 0.f, ESuggestProjVelocityTraceOption::OnlyTraceWhileAsceding, FCollisionResponseParams::DefaultResponseParam, ignore))
 			{
 				DrawDebugLine(GetWorld(), GetPawn()->GetActorLocation(), GetPawn()->GetActorLocation() + aim * 4000, FColor::Yellow, true, 0.5f);
 
