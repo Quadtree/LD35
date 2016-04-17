@@ -336,6 +336,18 @@ float ALD35Character::TakeDamage(float DamageAmount, FDamageEvent const & Damage
 		GetMesh()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 		GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 		GetMovementComponent()->SetActive(false);
+
+		if (EventInstigator)
+		{
+			if (auto a = Cast<ALD35Character>(EventInstigator->GetPawn()))
+			{
+				if (a->Faction == Faction)
+				{
+					UE_LOG(LogTemp, Display, TEXT("Teamkilling detected!"));
+					a->Faction = FMath::Rand();
+				}
+			}
+		}
 	}
 
 	return dmg;
