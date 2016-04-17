@@ -5,6 +5,8 @@
 #include "Engine/Canvas.h"
 #include "TextureResource.h"
 #include "CanvasItem.h"
+#include "LD35Character.h"
+#include "EngineUtils.h"
 
 ALD35HUD::ALD35HUD()
 {
@@ -21,17 +23,33 @@ void ALD35HUD::DrawHUD()
 	// Draw very simple crosshair
 
 	// find center of the Canvas
-	/*const FVector2D Center(Canvas->ClipX * 0.5f, Canvas->ClipY * 0.5f);
 
 	// offset by half the texture's dimensions so that the center of the texture aligns with the center of the Canvas
-	const FVector2D CrosshairDrawPosition( (Center.X - (CrosshairTex->GetSurfaceWidth() * 0.5)),
-										   (Center.Y - (CrosshairTex->GetSurfaceHeight() * 0.5f)) );
+	
 
 	// draw the crosshair
-	FCanvasTileItem TileItem( CrosshairDrawPosition, CrosshairTex->Resource, FLinearColor::White);
-	TileItem.BlendMode = SE_BLEND_Translucent;
-	Canvas->DrawItem( TileItem );*/
+	
 
+	if (auto chr = Cast<ALD35Character>(GetOwningPawn()))
+	{
+		if (chr->IsInAlternateForm)
+		{
+			for (TActorIterator<ALD35Character> i(GetWorld()); i; ++i)
+			{
+				FVector pos = Project(i->GetActorLocation() + FVector(0,0,150));
 
+				if (pos.Z > 0 && pos.X >= -200 && pos.Y >= -200 && pos.X <= Canvas->ClipX + 200 && pos.Y <= Canvas->ClipY + 200)
+				{
+					const FVector2D CrosshairDrawPosition((pos.X - 8), (pos.Y - 8));
+
+					FCanvasTileItem TileItem(CrosshairDrawPosition, CrosshairTex->Resource, FLinearColor::White);
+					TileItem.BlendMode = SE_BLEND_Translucent;
+					TileItem.Size.X = 16;
+					TileItem.Size.Y = 16;
+					Canvas->DrawItem(TileItem);
+				}
+			}
+		}
+	}
 }
 
