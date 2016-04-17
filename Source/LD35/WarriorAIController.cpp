@@ -12,6 +12,11 @@ void AWarriorAIController::Tick(float deltaTime)
 	if (auto chr = Cast<ALD35Character>(GetPawn()))
 	{
 		chr->IsFiring = false;
+
+		if (chr->Health <= 0)
+		{
+			return;
+		}
 	}
 
 	TimeToNextPath -= deltaTime;
@@ -121,6 +126,10 @@ void AWarriorAIController::BeginPlay()
 
 float AWarriorAIController::GetThreatLevel(ALD35Character* chr)
 {
+	if (!chr) return 0;
+
+	if (chr->Health <= 0) return 0;
+
 	ALD35Character* self = Cast<ALD35Character>(GetPawn());
 
 	if (!self)

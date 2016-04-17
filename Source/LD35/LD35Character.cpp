@@ -280,6 +280,8 @@ void ALD35Character::Tick(float deltaTime)
 {
 	Super::Tick(deltaTime);
 
+	if (Health <= 0) return;
+
 	ShotCooldown -= deltaTime;
 
 	if (IsFiring && ShotCooldown <= 0)
@@ -311,7 +313,12 @@ float ALD35Character::TakeDamage(float DamageAmount, FDamageEvent const & Damage
 
 	Health -= dmg;
 
-	if (Health <= 0) Destroy();
+	if (Health <= 0)
+	{
+		GetMesh()->SetSimulatePhysics(true);
+		GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+		GetMovementComponent()->SetActive(false);
+	}
 
 	return dmg;
 }
