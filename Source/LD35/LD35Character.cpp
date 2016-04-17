@@ -230,6 +230,8 @@ void ALD35Character::BeginPlay()
 {
 	Super::BeginPlay();
 
+	if (CanTransform) Health = 4;
+
 	InitialSpeed = GetCharacterMovement()->MaxWalkSpeed;
 	InitialJumpPower = GetCharacterMovement()->JumpZVelocity;
 }
