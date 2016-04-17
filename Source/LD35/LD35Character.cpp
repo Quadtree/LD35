@@ -81,7 +81,7 @@ void ALD35Character::OnFire()
 	{
 		FVector trgPos = FindComponentByClass<UCameraComponent>()->GetComponentLocation() + GetActorRotation().RotateVector(FVector(140, 0, 0));
 
-		DrawDebugSphere(GetWorld(), trgPos, 150, 8, FColor::Red, false, 0.5f);
+		//DrawDebugSphere(GetWorld(), trgPos, 150, 8, FColor::Red, false, 0.5f);
 
 		TArray<FOverlapResult> res;
 
