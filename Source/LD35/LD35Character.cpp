@@ -134,7 +134,11 @@ void ALD35Character::OnFire()
 			if (World != NULL)
 			{
 				// spawn the projectile at the muzzle
-				World->SpawnActor<ALD35Projectile>(ProjectileClass, SpawnLocation, SpawnRotation);
+
+				FActorSpawnParameters params;
+				params.Instigator = this;
+
+				World->SpawnActor<ALD35Projectile>(ProjectileClass, SpawnLocation, SpawnRotation, params);
 			}
 		}
 	}
