@@ -28,7 +28,7 @@ void AWarriorAIController::Tick(float deltaTime)
 
 		if (TimeToNextPath < 0)
 		{
-			TimeToNextPath = 3;
+			TimeToNextPath = 6;
 			EPathFollowingRequestResult::Type res = MoveToLocation(CurrentDestination);
 		}
 	}
