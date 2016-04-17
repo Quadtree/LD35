@@ -10,3 +10,4 @@ Saved/*
 *.log
 *.sln
 *.VC.opendb
+.~*
