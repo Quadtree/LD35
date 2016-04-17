@@ -24,6 +24,7 @@ public:
 	UPROPERTY(BlueprintReadOnly, Category = Transformation)
 	bool KnowsWeretigerIdentity;
 
+	UFUNCTION(BlueprintPure, Category = See)
 	bool CanPawnSee(class ALD35Character *chr);
 	
 private:
