@@ -10,6 +10,8 @@ class ALD35GameMode : public AGameMode
 
 public:
 	ALD35GameMode();
+
+	void BeginPlay();
 };
 
 

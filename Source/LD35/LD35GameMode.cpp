@@ -4,6 +4,7 @@
 #include "LD35GameMode.h"
 #include "LD35HUD.h"
 #include "LD35Character.h"
+#include "Engine.h"
 
 ALD35GameMode::ALD35GameMode()
 	: Super()
@@ -14,4 +15,14 @@ ALD35GameMode::ALD35GameMode()
 
 	// use our custom HUD class
 	HUDClass = ALD35HUD::StaticClass();
+}
+
+void ALD35GameMode::BeginPlay()
+{
+	Super::BeginPlay();
+
+#if PLATFORM_HTML5
+	//GEngine->GameUserSettings->ScalabilityQuality.SetFromSingleQualityLevel(2);
+	//GEngine->GameUserSettings->ApplySettings();
+#endif
 }
