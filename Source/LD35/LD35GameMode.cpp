@@ -29,7 +29,7 @@ void ALD35GameMode::BeginPlay()
 	GEngine->GameUserSettings->ScalabilityQuality.ResolutionQuality = 0;
 	GEngine->GameUserSettings->ScalabilityQuality.TextureQuality = 0;
 	GEngine->GameUserSettings->ScalabilityQuality.ViewDistanceQuality = 0; // 2
-	GEngine->GameUserSettings->ScalabilityQuality.ShadowQuality = 3; // 1
+	GEngine->GameUserSettings->ScalabilityQuality.ShadowQuality = 0; // 1
 	GEngine->GameUserSettings->ApplySettings();
 #endif
 }
