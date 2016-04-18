@@ -189,11 +189,11 @@ bool AWarriorAIController::CanPawnSee(ALD35Character * chr)
 	if (!self)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Incorrect pawn type"));
-		return 0;
+		return false;
 	}
 
 	// we can't see anything if we're dead...
-	if (self->Health <= 0) return 0;
+	if (self->Health <= 0) return false;
 
 	FVector eyePos;
 	FRotator eyeRot;
