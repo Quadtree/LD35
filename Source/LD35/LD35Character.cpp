@@ -362,6 +362,36 @@ void ALD35Character::Tick(float deltaTime)
 	{
 		Cast<UPointLightComponent>(a)->SetVisibility(!IsSomeoneTransformed);
 	}
+
+	if (Cast<APlayerController>(GetController()) && !IsSomeoneTransformed)
+	{
+		// if we're the player...
+		TArray<UPointLightComponent*> pointLights;
+
+		for (TObjectIterator<UPointLightComponent> i; i; ++i)
+		{
+			if (i->IsMovable() && i->GetWorld() == GetWorld())
+			{
+				pointLights.Add(*i);
+			}
+		}
+
+		pointLights.Sort([this](UPointLightComponent& a, UPointLightComponent& b) {
+			float rangeA = FVector::DistSquared(this->GetActorLocation(), a.GetComponentLocation());
+			float rangeB = FVector::DistSquared(this->GetActorLocation(), b.GetComponentLocation());
+
+			return rangeA < rangeB;
+		});
+
+		int32 lightsOn = 4;
+
+		for (auto& a : pointLights)
+		{
+			a->SetVisibility(lightsOn-- > 0);
+
+			//UE_LOG(LogTemp, Display, TEXT("Closest %s %s %s"), *FString::SanitizeFloat(FVector::DistSquared(this->GetActorLocation(), a->GetComponentLocation())), *a->GetComponentLocation().ToString(), *a->GetName());
+		}
+	}
 }
 
 void ALD35Character::SetIsFiring(float isFiring)
