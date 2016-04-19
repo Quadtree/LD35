@@ -22,14 +22,13 @@ void ALD35GameMode::BeginPlay()
 	Super::BeginPlay();
 
 #if PLATFORM_HTML5
-	//GEngine->GameUserSettings->ScalabilityQuality.SetFromSingleQualityLevel(2);
 	GEngine->GameUserSettings->ScalabilityQuality.AntiAliasingQuality = 0;
-	GEngine->GameUserSettings->ScalabilityQuality.EffectsQuality = 3; // 2
-	GEngine->GameUserSettings->ScalabilityQuality.PostProcessQuality = 0; // 2
+	GEngine->GameUserSettings->ScalabilityQuality.EffectsQuality = 3;
+	GEngine->GameUserSettings->ScalabilityQuality.PostProcessQuality = 0;
 	GEngine->GameUserSettings->ScalabilityQuality.ResolutionQuality = 0;
 	GEngine->GameUserSettings->ScalabilityQuality.TextureQuality = 0;
-	GEngine->GameUserSettings->ScalabilityQuality.ViewDistanceQuality = 0; // 2
-	GEngine->GameUserSettings->ScalabilityQuality.ShadowQuality = 0; // 1
+	GEngine->GameUserSettings->ScalabilityQuality.ViewDistanceQuality = 0;
+	GEngine->GameUserSettings->ScalabilityQuality.ShadowQuality = 0;
 	GEngine->GameUserSettings->ApplySettings();
 #endif
 }
